@@ -1,18 +1,42 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <AppHeader :logo="header" @show="showAppDetails"/>
+    <button @click="changeStyle"> Изменить стиль шапки сайта </button>
+    <p v-show="showDetails">Подробности нашего приложения </p>
+<!-- v-bind - делает атрибут реактивным (сразу берет значение из даты) -->
+<!-- v-model="login" - дать название для синхронизации в методах  -->
+<!-- пищем название ивентлисенера @ и передаем название функции, которая в методах  -->
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import AppHeader from '@/components/AppHeader'
 
 export default {
   name: 'App',
+
+  data() {
+    return{
+      header: 'Первый варинт шапки',
+      showDetails: false,
+    }
+  },
+
+  methods: {
+    changeStyle(){
+      this.header= 'Второй вариант шапки'
+    },
+
+    showAppDetails(value){
+      console.log(value)
+      this.showDetails = value
+    }
+  },
+
   components: {
-    HelloWorld
-  }
+    AppHeader
+  },
+
 }
 </script>
 
