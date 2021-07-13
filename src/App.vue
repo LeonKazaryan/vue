@@ -1,43 +1,82 @@
 <template>
   <div id="app">
-    <AppHeader :logo="header" @show="showAppDetails"/>
-    <button @click="changeStyle"> Изменить стиль шапки сайта </button>
-    <p v-show="showDetails">Подробности нашего приложения </p>
-<!-- v-bind - делает атрибут реактивным (сразу берет значение из даты) -->
-<!-- v-model="login" - дать название для синхронизации в методах  -->
-<!-- пищем название ивентлисенера @ и передаем название функции, которая в методах  -->
+    <h2> Мой список задач </h2>
+
+    <div style="text-align: right; margin-bottom: 3rem"> 
+      <button @click="showFormFunction" v-show="!showForm"> Добавить задачу </button>
+
+      <form class="form" v-show="showForm" @submit.prevent="addTodo">
+        <input v-model.trim="title" type="text" placeholder="Заголовок">
+        <textarea v-model.trim="description" placeholder="Описание" style="width: 98%; height: 100px; resize: none"></textarea>
+
+        <button type="submit">Добавить</button>
+        <button @click.prevent="cancel">Отмена</button>
+      </form>
+
+    </div>
+
+    <div v-show="tasks.length" class="tasks"></div>
+    <div v-show="!tasks.length" class="empty">У вас нет задач, добавьте хотя бы одну </div>
+
+
+
+
   </div>
 </template>
 
 <script>
-import AppHeader from '@/components/AppHeader'
+
 
 export default {
   name: 'App',
 
-  data() {
+  data(){
     return{
-      header: 'Первый варинт шапки',
-      showDetails: false,
+      tasks: [],
+      showForm: false,
+      title: "",
+      description: "",
     }
   },
 
   methods: {
-    changeStyle(){
-      this.header= 'Второй вариант шапки'
-    },
+      showFormFunction() {
+        this.showForm = true;
+      },
 
-    showAppDetails(value){
-      console.log(value)
-      this.showDetails = value
-    }
+      addTodo(){
+        if(!this.title.length || !this.description.length){
+          return alert("Пустые поля запрещены законом")
+        }
+
+        const task = {
+          title: this.title,
+          description: this.description,
+          id: Date.now(),
+          isFinished: false,
+        }
+
+        this.tasks.push(task);
+
+        this.title = "";
+        this.description = "";
+        this.showForm = false;
+      },
+
+      cancel(){
+        this.title = "";
+        this.description = "";
+        this.showForm = false;
+      }
   },
 
-  components: {
-    AppHeader
+  components:{
+
   },
 
-}
+  }
+
+  
 </script>
 
 <style>
@@ -49,4 +88,12 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+
+.form{
+  display:flex;
+  flex-direction: column;
+  width: 300px;
+  margin: 0 auto;
+  text-align: center;
+} 
 </style>
