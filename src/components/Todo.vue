@@ -17,6 +17,8 @@
 </template>
 
 <script>
+import filters from '@/mixins/filters.js'
+
 export default {
     name: 'Todo',
 
@@ -29,6 +31,8 @@ export default {
 
         idx: Number
     },
+
+    mixins: [filters],
     
     methods: {
        toggleTodo(){   
@@ -38,58 +42,7 @@ export default {
         deleteTodo(){
             this.$emit('del', this.idx)
         },
-    },
-
-    filters: {
-        formatDate(value){
-            return Intl.DateTimeFormat('ru-RU',{
-                // year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                hour: 'numeric',
-                minute: 'numeric',
-                // second: 'numeric',
-            }).format(new Date(value))
-        }
     }
 }
 </script>
 
-<style>
-    .todo{
-        width: 400px;
-        margin: 0 auto;
-        border: 1px solid black;
-        border-radius: 10px;
-        margin-bottom: 2.5rem;
-        padding: 1rem 0;
-        /* display:flex; */
-    }
-
-    .todo__header{
-        font-weight: 800;
-        background-color:rgb(214, 214, 214)
-    }
-
-    .todo__title{
-        font-weight: 700;
-        font-size:20px;
-    }
-
-    .todo__description{
-        opacity: 0.9;
-    }
-
-    .todo__done{
-        margin-right:0.6rem;
-    }
-
-    .todo-finished{
-        border: 1px solid rgb(143, 0, 0);
-        text-decoration: line-through;
-        background-color: whitesmoke;
-        opacity: 0.9;
-        color: rgb(48, 48, 48)
-    }
-    
-</style>

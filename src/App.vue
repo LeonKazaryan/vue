@@ -21,13 +21,11 @@
     
     <div v-show="!tasks.length" class="empty">У вас нет задач, добавьте хотя бы одну </div>
 
-
-
-
   </div>
 </template>
 
 <script>
+
 
 
 export default {
@@ -87,30 +85,11 @@ export default {
     }
 },
 
-  components:{
-    Todo: () => import('@/components/Todo.vue')
-  },
+  // components:{
+  //   Todo: () => import('@/components/Todo.vue')
+  // },
 
   }
 
   
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-
-.form{
-  display:flex;
-  flex-direction: column;
-  width: 300px;
-  margin: 0 auto;
-  text-align: center;
-} 
-</style>
