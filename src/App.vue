@@ -15,7 +15,10 @@
 
     </div>
 
-    <div v-show="tasks.length" class="tasks"></div>
+    <div v-show="tasks.length" class="tasks">
+          <Todo v-for="(todo, idx) in tasks" :key=todo.id :todo="todo" :idx="idx" @del="deleteTodo"/>
+    </div>
+    
     <div v-show="!tasks.length" class="empty">У вас нет задач, добавьте хотя бы одну </div>
 
 
@@ -39,39 +42,53 @@ export default {
     }
   },
 
-  methods: {
-      showFormFunction() {
-        this.showForm = true;
-      },
-
-      addTodo(){
-        if(!this.title.length || !this.description.length){
-          return alert("Пустые поля запрещены законом")
-        }
-
-        const task = {
-          title: this.title,
-          description: this.description,
-          id: Date.now(),
-          isFinished: false,
-        }
-
-        this.tasks.push(task);
-
-        this.title = "";
-        this.description = "";
-        this.showForm = false;
-      },
-
-      cancel(){
-        this.title = "";
-        this.description = "";
-        this.showForm = false;
-      }
+  created(){
+    window.addEventListener('beforeunload', this.saveTodos)
+    const tasks = localStorage.getItem('todos')
+    if (tasks){
+      this.tasks = JSON.parse(tasks)
+    }
   },
 
-  components:{
+  methods: {
 
+    saveTodos(){
+      localStorage.setItem('todos', JSON.stringify(this.tasks))
+    },
+    
+    deleteTodo(idx){
+      this.tasks.splice(idx, 1)
+    },
+
+    showFormFunction() {
+      this.showForm = true;
+    },
+
+    addTodo(){
+      if(!this.title.length || !this.description.length){
+        return alert("Пустые поля запрещены законом")
+      }
+      const task = {
+        title: this.title,
+        description: this.description,
+        id: Date.now(),
+        isFinished: false,
+      }
+      this.tasks.push(task);
+      this.title = "";
+      this.description = "";
+      this.showForm = false;
+    },
+
+    cancel(){
+      this.title = "";
+      this.description = "";
+      this.showForm = false;
+    }
+},
+
+  components:{
+    Todo: () => import('@/components/Todo.vue')
   },
 
   }
