@@ -3,14 +3,25 @@
     <h2> Мой список задач </h2>
 
     <div style="text-align: right; margin-bottom: 3rem"> 
-      <button @click="showFormFunction" v-show="!showForm"> Добавить задачу </button>
+      <b-button size="lg" variant="secondary" @click="showFormFunction" v-show="!showForm"> Добавить задачу </b-button>
 
       <form class="form" v-show="showForm" @submit.prevent="addTodo">
-        <input v-model.trim="title" type="text" placeholder="Заголовок">
-        <textarea v-model.trim="description" placeholder="Описание" style="width: 98%; height: 100px; resize: none"></textarea>
 
-        <button type="submit">Добавить</button>
-        <button @click.prevent="cancel">Отмена</button>
+        <b-form-input autocomplete="off" class="form__input" v-model="text" v-model.trim="title" type="text" placeholder="Заголовок"></b-form-input>
+        <b-form-textarea
+          v-model="text"
+          v-model.trim="description" 
+          placeholder="Описание" 
+          rows="3"
+          max-rows="6"
+          class="form__input-textarea form__input"
+        ></b-form-textarea>
+
+        <div class="form__buttons">
+          <b-button size="lg" class="form__button form__button-big" variant="success" type="submit">Добавить</b-button>
+          <b-button size="sm" class="form__button form__button-small" variant="danger" @click.prevent="cancel">Отмена</b-button>
+        </div>
+
       </form>
 
     </div>
